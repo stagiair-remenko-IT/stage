@@ -37,4 +37,9 @@ return [
 
     'thanks_image_url' => env('THANKS_IMAGE_URL'),
 
+    /*
+    | Adobe Fonts kit ID for New Frank (fonts.adobe.com → Create Web Project → add New Frank)
+    */
+    'adobe_fonts_kit_id' => env('ADOBE_FONTS_KIT_ID'),
+
 ];

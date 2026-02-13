@@ -5,20 +5,44 @@
 
 const translations = {
     nl: {
-        ratingTitle: 'Beoordeel onze service',
+        ratingTitle: 'Waardeer onze diensten',
+        veryBad: 'Zeer slecht',
         bad: 'Slecht',
         neutral: 'Neutraal',
         good: 'Goed',
+        veryGood: 'Zeer goed',
+        demographicsTitle: 'Help ons verbeteren',
+        demographicsSubtitle: 'Optioneel – anoniem',
+        ageRange: 'Leeftijd',
+        gender: 'Geslacht',
+        male: 'Man',
+        female: 'Vrouw',
+        other: 'Anders',
+        preferNotToSay: 'Zeg ik liever niet',
+        skip: 'Overslaan',
+        continue: 'Doorgaan',
         feedbackTitle: 'Wil je de keuze kort toelichten?',
         feedbackPlaceholder: 'Typ hier je feedback...',
         send: 'Versturen',
         thanks: 'Bedankt!',
     },
     en: {
-        ratingTitle: 'Rate our service',
+        ratingTitle: 'Value our services',
+        veryBad: 'Very bad',
         bad: 'Bad',
         neutral: 'Neutral',
         good: 'Good',
+        veryGood: 'Very good',
+        demographicsTitle: 'Help us improve',
+        demographicsSubtitle: 'Optional – anonymous',
+        ageRange: 'Age',
+        gender: 'Gender',
+        male: 'Male',
+        female: 'Female',
+        other: 'Other',
+        preferNotToSay: 'Prefer not to say',
+        skip: 'Skip',
+        continue: 'Continue',
         feedbackTitle: 'Would you like to briefly explain your choice?',
         feedbackPlaceholder: 'Type your feedback here...',
         send: 'Send',
@@ -36,6 +60,7 @@ let feedbackTimeoutId = null;
 
 const screens = {
     rating: document.getElementById('screen-rating'),
+    demographics: document.getElementById('screen-demographics'),
     feedback: document.getElementById('screen-feedback'),
     thanks: document.getElementById('screen-thanks'),
 };
@@ -74,6 +99,33 @@ function bindEvents() {
     feedbackInput.addEventListener('touchstart', resetFeedbackTimeout);
 
     feedbackSubmit.addEventListener('click', handleFeedbackSubmit);
+    document.getElementById('feedback-skip').addEventListener('click', () => {
+        clearFeedbackTimeout();
+        goToThanks();
+    });
+
+    document.querySelectorAll('.age-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            selectedAge = selectedAge === btn.dataset.age ? null : btn.dataset.age;
+            document.querySelectorAll('.age-btn').forEach((b) => {
+                b.classList.toggle('border-green-500', b.dataset.age === selectedAge);
+                b.classList.toggle('bg-green-50', b.dataset.age === selectedAge);
+                b.classList.toggle('border-gray-300', b.dataset.age !== selectedAge);
+            });
+        });
+    });
+    document.querySelectorAll('.gender-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            selectedGender = selectedGender === btn.dataset.gender ? null : btn.dataset.gender;
+            document.querySelectorAll('.gender-btn').forEach((b) => {
+                b.classList.toggle('border-green-500', b.dataset.gender === selectedGender);
+                b.classList.toggle('bg-green-50', b.dataset.gender === selectedGender);
+                b.classList.toggle('border-gray-300', b.dataset.gender !== selectedGender);
+            });
+        });
+    });
+    document.getElementById('demographics-skip').addEventListener('click', () => goToFeedback());
+    document.getElementById('demographics-continue').addEventListener('click', handleDemographicsContinue);
 }
 
 function updateLangButtons() {
@@ -105,26 +157,71 @@ function updateCharCount() {
 }
 
 function showScreen(name) {
-    screens.rating.classList.add('hidden');
-    screens.feedback.classList.add('hidden');
-    screens.thanks.classList.add('hidden');
+    screens.rating.classList.add('screen-hidden');
+    screens.demographics.classList.add('screen-hidden');
+    screens.feedback.classList.add('screen-hidden');
+    screens.thanks.classList.add('screen-hidden');
 
-    if (name === 'rating') screens.rating.classList.remove('hidden');
-    else if (name === 'feedback') screens.feedback.classList.remove('hidden');
-    else if (name === 'thanks') screens.thanks.classList.remove('hidden');
+    if (name === 'rating') screens.rating.classList.remove('screen-hidden');
+    else if (name === 'demographics') screens.demographics.classList.remove('screen-hidden');
+    else if (name === 'feedback') screens.feedback.classList.remove('screen-hidden');
+    else if (name === 'thanks') screens.thanks.classList.remove('screen-hidden');
 }
 
 function handleRatingClick(score) {
     clearFeedbackTimeout();
     submitRating(score).then((data) => {
         currentRatingId = data?.id ?? null;
-        feedbackInput.value = '';
-        updateCharCount();
-        startFeedbackTimeout();
-        showScreen('feedback');
+        resetDemographicsSelection();
+        showScreen('demographics');
     }).catch(() => {
         showScreen('thanks');
         setTimeout(() => showScreen('rating'), THANKS_DISPLAY_MS);
+    });
+}
+
+let selectedAge = null;
+let selectedGender = null;
+
+function resetDemographicsSelection() {
+    selectedAge = null;
+    selectedGender = null;
+    document.querySelectorAll('.age-btn').forEach((btn) => {
+        btn.classList.remove('border-green-500', 'bg-green-50');
+        btn.classList.add('border-gray-300');
+    });
+    document.querySelectorAll('.gender-btn').forEach((btn) => {
+        btn.classList.remove('border-green-500', 'bg-green-50');
+        btn.classList.add('border-gray-300');
+    });
+}
+
+function goToFeedback() {
+    feedbackInput.value = '';
+    updateCharCount();
+    startFeedbackTimeout();
+    showScreen('feedback');
+}
+
+function handleDemographicsContinue() {
+    if (!currentRatingId || (!selectedAge && !selectedGender)) {
+        goToFeedback();
+        return;
+    }
+    updateDemographics(selectedAge, selectedGender).finally(() => goToFeedback());
+}
+
+function updateDemographics(ageRange, gender) {
+    return fetch(`/api/ratings/${currentRatingId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+            age_range: ageRange || null,
+            gender: gender || null,
+        }),
+    }).then((r) => {
+        if (!r.ok) throw new Error('Update failed');
+        return r.json();
     });
 }
 

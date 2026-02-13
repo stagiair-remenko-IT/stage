@@ -9,7 +9,10 @@ class Rating extends Model
 {
     protected $fillable = [
         'score',
+        'score_numeric',
         'location',
+        'age_range',
+        'gender',
     ];
 
     public function feedback(): HasMany
