@@ -35,4 +35,6 @@ return [
         ],
     ],
 
+    'thanks_image_url' => env('THANKS_IMAGE_URL'),
+
 ];
