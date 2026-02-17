@@ -18,7 +18,7 @@
     @vite(['resources/css/app.css', 'resources/js/rating-app.js'])
 </head>
 <body class="rating-app relative min-h-screen min-h-[100dvh] flex flex-col touch-manipulation select-none overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('{{ asset('images/app-bg.png') }}');">
-    <div class="absolute inset-0 bg-white/20 pointer-events-none" aria-hidden="true"></div>
+    <div class="absolute inset-0 bg-white/20 pointer-events-none z-0" aria-hidden="true"></div>
     <div id="rating-app" class="flex-1 flex flex-col relative z-10">
         {{-- Language toggle - top right --}}
         <div class="absolute top-4 right-4 z-50 flex gap-2">
@@ -80,20 +80,20 @@
             </div>
             <div class="flex gap-4 mt-2">
                 <button type="button" id="demographics-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md hover:bg-white/60 transition-colors touch-target" data-i18n="skip">Overslaan</button>
-                <button type="button" id="demographics-continue" class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors touch-target" data-i18n="continue">Doorgaan</button>
+                <button type="button" id="demographics-continue" class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors touch-target disabled:bg-gray-300 disabled:hover:bg-gray-300" data-i18n="continue">Doorgaan</button>
             </div>
         </div>
 
         {{-- Screen 3: Feedback --}}
-        <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-center p-8 gap-6">
+        <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-start overflow-y-auto p-8 gap-6 z-[60]">
             <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 text-center" data-i18n="feedbackTitle">Wil je de keuze kort toelichten?</h2>
             <div class="w-full max-w-xl">
-                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" class="w-full p-4 text-lg rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600" data-i18n-placeholder="feedbackPlaceholder"></textarea>
+                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" class="w-full p-4 text-lg rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation" data-i18n-placeholder="feedbackPlaceholder"></textarea>
                 <p class="text-sm text-gray-500 mt-2 text-right" id="char-count">0 / 500</p>
             </div>
             <div class="flex gap-4">
                 <button type="button" id="feedback-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md hover:bg-white/60 transition-colors touch-target" data-i18n="skip">Overslaan</button>
-                <button type="button" id="feedback-submit" class="flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-xl transition-colors touch-target min-h-[60px]">
+                <button type="button" id="feedback-submit" class="flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-xl transition-colors touch-target min-h-[60px] disabled:bg-gray-300 disabled:hover:bg-gray-300">
                     <span data-i18n="send">Versturen</span>
                     <span aria-hidden="true">→</span>
                 </button>
