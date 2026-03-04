@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="theme-color" content="#f0f2f5">
+    <meta name="theme-color" content="#ffffff">
 
     <title>{{ config('app.name', 'Remenko') }} - {{ __('Rating') }}</title>
 
@@ -17,8 +17,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/rating-app.js'])
 </head>
-<body class="rating-app relative min-h-screen min-h-[100dvh] flex flex-col touch-manipulation select-none overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('{{ asset('images/app-bg.png') }}');">
-    <div class="absolute inset-0 bg-white/20 pointer-events-none z-0" aria-hidden="true"></div>
+<body class="rating-app relative min-h-screen min-h-[100dvh] flex flex-col touch-manipulation select-none overflow-hidden bg-white">
     <div id="rating-app" class="flex-1 flex flex-col relative z-10">
         {{-- Language toggle - top right --}}
         <div class="absolute top-4 right-4 z-50 flex gap-2">
@@ -28,7 +27,7 @@
 
         {{-- Screen 1: Rating --}}
         <div id="screen-rating" class="screen rating-screen flex flex-col items-center justify-center p-8 gap-8">
-            <h1 class="text-3xl md:text-4xl font-semibold text-gray-800 text-center" data-i18n="ratingTitle">Waardeer onze diensten</h1>
+            <h1 class="text-3xl md:text-4xl font-semibold text-gray-800 text-center" data-i18n="ratingTitle">Beoordeel hier jouw winkelervaring</h1>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6 items-end">
                 <button type="button" data-score="very_bad" class="rating-btn flex flex-col items-center gap-2 py-4 touch-target min-h-[160px] hover:opacity-90 active:scale-95 transition-transform">
                     <img src="{{ asset('images/rating-very-bad.png') }}" alt="" class="w-20 h-20 md:w-24 md:h-24 object-contain" aria-hidden="true">
@@ -61,11 +60,11 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2" data-i18n="ageRange">Leeftijd</label>
                     <div class="flex flex-wrap gap-2">
-                        <button type="button" data-age="18-24" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">18-24</button>
-                        <button type="button" data-age="25-34" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">25-34</button>
-                        <button type="button" data-age="35-44" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">35-44</button>
-                        <button type="button" data-age="45-54" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">45-54</button>
-                        <button type="button" data-age="55+" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">55+</button>
+                        <button type="button" data-age="<25" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">&lt;25</button>
+                        <button type="button" data-age="25-40" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">25-40</button>
+                        <button type="button" data-age="40-50" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">40-50</button>
+                        <button type="button" data-age="50-65" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">50-65</button>
+                        <button type="button" data-age="65+" class="demo-btn age-btn px-4 py-2 rounded-lg border-2 border-gray-300 text-gray-700 font-medium transition-colors touch-target">65+</button>
                     </div>
                 </div>
                 <div>
@@ -79,7 +78,7 @@
                 </div>
             </div>
             <div class="flex gap-4 mt-2">
-                <button type="button" id="demographics-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md hover:bg-white/60 transition-colors touch-target" data-i18n="skip">Overslaan</button>
+                <button type="button" id="demographics-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors touch-target" data-i18n="skip">Overslaan</button>
                 <button type="button" id="demographics-continue" class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors touch-target disabled:bg-gray-300 disabled:hover:bg-gray-300" data-i18n="continue">Doorgaan</button>
             </div>
         </div>
@@ -88,11 +87,11 @@
         <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-start overflow-y-auto p-8 gap-6 z-[60]">
             <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 text-center" data-i18n="feedbackTitle">Wil je de keuze kort toelichten?</h2>
             <div class="w-full max-w-xl">
-                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" class="w-full p-4 text-lg rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation" data-i18n-placeholder="feedbackPlaceholder"></textarea>
+                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" class="w-full p-4 text-lg rounded-xl border-2 border-gray-300 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation" data-i18n-placeholder="feedbackPlaceholder"></textarea>
                 <p class="text-sm text-gray-500 mt-2 text-right" id="char-count">0 / 500</p>
             </div>
             <div class="flex gap-4">
-                <button type="button" id="feedback-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-white/40 bg-white/40 backdrop-blur-md hover:bg-white/60 transition-colors touch-target" data-i18n="skip">Overslaan</button>
+                <button type="button" id="feedback-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors touch-target" data-i18n="skip">Overslaan</button>
                 <button type="button" id="feedback-submit" class="flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-xl transition-colors touch-target min-h-[60px] disabled:bg-gray-300 disabled:hover:bg-gray-300">
                     <span data-i18n="send">Versturen</span>
                     <span aria-hidden="true">→</span>

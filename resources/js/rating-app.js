@@ -5,7 +5,7 @@
 
 const translations = {
     nl: {
-        ratingTitle: 'Waardeer onze diensten',
+        ratingTitle: 'Beoordeel hier jouw winkelervaring',
         veryBad: 'Zeer slecht',
         bad: 'Slecht',
         neutral: 'Neutraal',
@@ -27,7 +27,7 @@ const translations = {
         thanks: 'Bedankt!',
     },
     en: {
-        ratingTitle: 'Value our services',
+        ratingTitle: 'Rate your shopping experience here',
         veryBad: 'Very bad',
         bad: 'Bad',
         neutral: 'Neutral',

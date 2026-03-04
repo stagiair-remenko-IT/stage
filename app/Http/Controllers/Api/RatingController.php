@@ -14,7 +14,7 @@ class RatingController extends Controller
         $validated = $request->validate([
             'score' => ['required', 'string', 'in:very_bad,bad,neutral,good,very_good'],
             'location' => ['nullable', 'string', 'max:255'],
-            'age_range' => ['nullable', 'string', 'in:18-24,25-34,35-44,45-54,55+'],
+            'age_range' => ['nullable', 'string', 'in:<25,25-40,40-50,50-65,65+'],
             'gender' => ['nullable', 'string', 'in:male,female,other,prefer_not_to_say'],
         ]);
 
@@ -33,7 +33,7 @@ class RatingController extends Controller
     public function update(Request $request, Rating $rating): JsonResponse
     {
         $validated = $request->validate([
-            'age_range' => ['nullable', 'string', 'in:18-24,25-34,35-44,45-54,55+'],
+            'age_range' => ['nullable', 'string', 'in:<25,25-40,40-50,50-65,65+'],
             'gender' => ['nullable', 'string', 'in:male,female,other,prefer_not_to_say'],
         ]);
 
