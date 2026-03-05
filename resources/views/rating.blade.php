@@ -87,7 +87,7 @@
         <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-start overflow-y-auto p-8 gap-6 z-[60]">
             <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 text-center" data-i18n="feedbackTitle">Wil je de keuze kort toelichten?</h2>
             <div class="w-full max-w-xl">
-                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" inputmode="none" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="w-full p-4 text-lg rounded-xl border-2 border-gray-300 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation" data-i18n-placeholder="feedbackPlaceholder"></textarea>
+                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" dir="ltr" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="w-full p-4 text-lg rounded-xl border-2 border-gray-300 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation text-left" data-i18n-placeholder="feedbackPlaceholder"></textarea>
                 <p class="text-sm text-gray-500 mt-2 text-right" id="char-count">0 / 500</p>
             </div>
             <div class="flex gap-4">
