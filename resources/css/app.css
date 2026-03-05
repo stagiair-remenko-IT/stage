@@ -51,3 +51,53 @@
 .screen-thanks:not(.screen-hidden) {
     transform: none;
 }
+
+/* Virtual keyboard for touchscreen */
+.virtual-keyboard.hidden {
+    display: none !important;
+}
+
+.virtual-keyboard .keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.virtual-keyboard .key {
+    min-width: 40px;
+    min-height: 48px;
+    padding: 10px 14px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    border: 2px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+.virtual-keyboard .key:hover {
+    background: #f3f4f6;
+}
+
+.virtual-keyboard .key:active {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.virtual-keyboard .key.key-wide {
+    min-width: 56px;
+}
+
+.virtual-keyboard .key.key-space {
+    flex: 1;
+    min-width: 120px;
+}
+
+.virtual-keyboard .key.key-special {
+    background: #e5e7eb;
+    font-size: 0.875rem;
+}

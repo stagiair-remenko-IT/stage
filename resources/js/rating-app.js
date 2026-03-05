@@ -78,12 +78,112 @@ const feedbackInput = document.getElementById('feedback-input');
 const feedbackSubmit = document.getElementById('feedback-submit');
 const charCount = document.getElementById('char-count');
 const demographicsContinueBtn = document.getElementById('demographics-continue');
+const virtualKeyboardEl = document.getElementById('virtual-keyboard');
+
+// Virtual keyboard layout (lower/upper for shift)
+const KEYBOARD_LAYOUT = [
+    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', { key: 'backspace', wide: true }],
+    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    ['shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', { key: 'backspace', wide: true }],
+    [{ key: ' ', wide: true, class: 'key-space' }],
+];
+
+let keyboardShift = false;
 
 function init() {
     currentLocale = localStorage.getItem(STORAGE_KEY) || 'nl';
     updateLangButtons();
     applyTranslations();
+    initVirtualKeyboard();
     bindEvents();
+}
+
+function initVirtualKeyboard() {
+    if (!virtualKeyboardEl) return;
+    const rowsEl = virtualKeyboardEl.querySelector('.keyboard-rows');
+    if (!rowsEl) return;
+
+    KEYBOARD_LAYOUT.forEach((row) => {
+        const rowEl = document.createElement('div');
+        rowEl.className = 'keyboard-row';
+        row.forEach((item) => {
+            const key = typeof item === 'string' ? { key: item } : item;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'key' + (key.wide ? ' key-wide' : '') + (key.class ? ' ' + key.class : '');
+            if (key.key === 'shift' || key.key === 'backspace') btn.classList.add('key-special');
+            btn.dataset.key = key.key;
+            if (key.key === 'backspace') btn.innerHTML = '⌫';
+            else if (key.key === 'shift') btn.textContent = '⇧';
+            else if (key.key === ' ') btn.textContent = '␣';
+            else btn.textContent = key.key;
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleVirtualKey(key.key);
+            });
+            rowEl.appendChild(btn);
+        });
+        rowsEl.appendChild(rowEl);
+    });
+}
+
+function handleVirtualKey(key) {
+    if (key === 'backspace') {
+        const start = feedbackInput.selectionStart;
+        const end = feedbackInput.selectionEnd;
+        if (start === end && start > 0) {
+            feedbackInput.value = feedbackInput.value.slice(0, start - 1) + feedbackInput.value.slice(end);
+            feedbackInput.setSelectionRange(start - 1, start - 1);
+        } else if (start !== end) {
+            feedbackInput.value = feedbackInput.value.slice(0, start) + feedbackInput.value.slice(end);
+            feedbackInput.setSelectionRange(start, start);
+        }
+    } else if (key === 'shift') {
+        keyboardShift = !keyboardShift;
+        updateKeyboardLabels();
+    } else {
+        let char = key;
+        if (char.length === 1 && keyboardShift) char = char.toUpperCase();
+        if (char === ' ') char = ' ';
+        const start = feedbackInput.selectionStart;
+        const end = feedbackInput.selectionEnd;
+        const before = feedbackInput.value.slice(0, start);
+        const after = feedbackInput.value.slice(end);
+        const newVal = before + char + after;
+        if (newVal.length <= 500) {
+            feedbackInput.value = newVal;
+            const pos = start + char.length;
+            feedbackInput.setSelectionRange(pos, pos);
+            if (keyboardShift && char !== ' ') keyboardShift = false;
+            updateKeyboardLabels();
+        }
+    }
+    feedbackInput.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function updateKeyboardLabels() {
+    virtualKeyboardEl?.querySelectorAll('.key[data-key]').forEach((btn) => {
+        const k = btn.dataset.key;
+        if (k && k.length === 1 && k !== ' ') {
+            btn.textContent = keyboardShift ? k.toUpperCase() : k.toLowerCase();
+        }
+    });
+}
+
+function showVirtualKeyboard() {
+    if (virtualKeyboardEl) {
+        virtualKeyboardEl.classList.remove('hidden');
+        virtualKeyboardEl.setAttribute('aria-hidden', 'false');
+        updateKeyboardLabels();
+    }
+}
+
+function hideVirtualKeyboard() {
+    if (virtualKeyboardEl) {
+        virtualKeyboardEl.classList.add('hidden');
+        virtualKeyboardEl.setAttribute('aria-hidden', 'true');
+    }
 }
 
 function bindEvents() {
@@ -111,8 +211,12 @@ function bindEvents() {
         updateFeedbackSubmitState();
     });
     feedbackInput.addEventListener('keydown', resetFeedbackTimeout);
-    feedbackInput.addEventListener('focus', resetFeedbackTimeout);
+    feedbackInput.addEventListener('focus', () => {
+        resetFeedbackTimeout();
+        showVirtualKeyboard();
+    });
     feedbackInput.addEventListener('touchstart', resetFeedbackTimeout);
+    feedbackInput.addEventListener('touchstart', () => showVirtualKeyboard(), { passive: true });
 
     feedbackSubmit.addEventListener('click', () => {
         if (feedbackSubmit.disabled) return;
@@ -122,6 +226,7 @@ function bindEvents() {
     document.getElementById('feedback-skip').addEventListener('click', () => {
         if (Date.now() - feedbackScreenShownAt < FEEDBACK_CLICK_GUARD_MS) return;
         clearFeedbackTimeout();
+        hideVirtualKeyboard();
         goToThanks();
     });
 
@@ -221,6 +326,7 @@ function showScreen(name) {
     // #region agent log
     _dbg('rating-app.js:showScreen', 'showScreen called', { screen: name, ts: Date.now() });
     // #endregion
+    if (name !== 'feedback') hideVirtualKeyboard();
     screens.rating.classList.add('screen-hidden');
     screens.demographics.classList.add('screen-hidden');
     screens.feedback.classList.add('screen-hidden');
@@ -342,6 +448,7 @@ function clearFeedbackTimeout() {
 
 function handleFeedbackSubmit() {
     const text = feedbackInput.value.trim();
+    hideVirtualKeyboard();
     if (text) {
         clearFeedbackTimeout();
         submitFeedback(text).finally(() => goToThanks());
