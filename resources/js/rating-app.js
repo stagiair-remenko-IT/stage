@@ -111,6 +111,7 @@ function initVirtualKeyboard() {
             const key = typeof item === 'string' ? { key: item } : item;
             const btn = document.createElement('button');
             btn.type = 'button';
+            btn.tabIndex = -1;
             btn.className = 'key' + (key.wide ? ' key-wide' : '') + (key.class ? ' ' + key.class : '');
             if (key.key === 'shift' || key.key === 'backspace') btn.classList.add('key-special');
             btn.dataset.key = key.key;
@@ -118,8 +119,9 @@ function initVirtualKeyboard() {
             else if (key.key === 'shift') btn.textContent = '⇧';
             else if (key.key === ' ') btn.textContent = '␣';
             else btn.textContent = key.key;
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
+                feedbackInput.focus();
                 handleVirtualKey(key.key);
             });
             rowEl.appendChild(btn);
@@ -129,10 +131,12 @@ function initVirtualKeyboard() {
 }
 
 function handleVirtualKey(key) {
+    let start = feedbackInput.selectionStart;
+    let end = feedbackInput.selectionEnd;
+    if (start === 0 && end === 0 && feedbackInput.value.length > 0 && key !== 'backspace') {
+        start = end = feedbackInput.value.length;
+    }
     if (key === 'backspace') {
-        const start = feedbackInput.selectionStart;
-        const end = feedbackInput.selectionEnd;
-        if (start === end && start > 0) {
             feedbackInput.value = feedbackInput.value.slice(0, start - 1) + feedbackInput.value.slice(end);
             feedbackInput.setSelectionRange(start - 1, start - 1);
         } else if (start !== end) {
@@ -146,8 +150,6 @@ function handleVirtualKey(key) {
         let char = key;
         if (char.length === 1 && keyboardShift) char = char.toUpperCase();
         if (char === ' ') char = ' ';
-        const start = feedbackInput.selectionStart;
-        const end = feedbackInput.selectionEnd;
         const before = feedbackInput.value.slice(0, start);
         const after = feedbackInput.value.slice(end);
         const newVal = before + char + after;
