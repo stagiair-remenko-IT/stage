@@ -137,6 +137,7 @@ function handleVirtualKey(key) {
         start = end = feedbackInput.value.length;
     }
     if (key === 'backspace') {
+        if (start === end && start > 0) {
             feedbackInput.value = feedbackInput.value.slice(0, start - 1) + feedbackInput.value.slice(end);
             feedbackInput.setSelectionRange(start - 1, start - 1);
         } else if (start !== end) {
@@ -150,13 +151,9 @@ function handleVirtualKey(key) {
         let char = key;
         if (char.length === 1 && keyboardShift) char = char.toUpperCase();
         if (char === ' ') char = ' ';
-        const before = feedbackInput.value.slice(0, start);
-        const after = feedbackInput.value.slice(end);
-        const newVal = before + char + after;
-        if (newVal.length <= 500) {
-            feedbackInput.value = newVal;
-            const pos = start + char.length;
-            feedbackInput.setSelectionRange(pos, pos);
+        if (feedbackInput.value.length + char.length <= 500) {
+            feedbackInput.value += char;
+            feedbackInput.setSelectionRange(feedbackInput.value.length, feedbackInput.value.length);
             if (keyboardShift && char !== ' ') keyboardShift = false;
             updateKeyboardLabels();
         }
