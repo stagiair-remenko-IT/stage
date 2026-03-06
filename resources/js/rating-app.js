@@ -121,6 +121,7 @@ function initVirtualKeyboard() {
             else btn.textContent = key.key;
             btn.addEventListener('pointerdown', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 feedbackInput.focus();
                 handleVirtualKey(key.key);
             });
@@ -210,10 +211,14 @@ function bindEvents() {
         updateFeedbackSubmitState();
     });
     feedbackInput.addEventListener('keydown', resetFeedbackTimeout);
+    feedbackInput.addEventListener('keyup', resetFeedbackTimeout);
+    feedbackInput.addEventListener('keypress', resetFeedbackTimeout);
+    feedbackInput.addEventListener('paste', resetFeedbackTimeout);
     feedbackInput.addEventListener('focus', () => {
         resetFeedbackTimeout();
         showVirtualKeyboard();
     });
+    feedbackInput.addEventListener('blur', resetFeedbackTimeout);
     feedbackInput.addEventListener('touchstart', resetFeedbackTimeout);
     feedbackInput.addEventListener('touchstart', () => showVirtualKeyboard(), { passive: true });
 

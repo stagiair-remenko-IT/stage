@@ -84,7 +84,7 @@
         </div>
 
         {{-- Screen 3: Feedback --}}
-        <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-start overflow-y-auto p-8 gap-6 z-[60]">
+        <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-start overflow-y-auto p-8 gap-6 z-[60] isolate">
             <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 text-center" data-i18n="feedbackTitle">Wil je de keuze kort toelichten?</h2>
             <div class="w-full max-w-xl">
                 <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" dir="ltr" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="w-full p-4 text-lg rounded-xl border-2 border-gray-300 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation text-left" data-i18n-placeholder="feedbackPlaceholder"></textarea>
@@ -98,7 +98,7 @@
                 </button>
             </div>
             {{-- Virtual keyboard for touchscreen (Raspberry Pi, etc.) --}}
-            <div id="virtual-keyboard" class="virtual-keyboard hidden w-full max-w-2xl mt-4 p-3 bg-gray-100 rounded-xl border-2 border-gray-200" aria-hidden="true">
+            <div id="virtual-keyboard" class="virtual-keyboard hidden w-full max-w-2xl mt-4 p-3 bg-gray-100 rounded-xl border-2 border-gray-200 touch-manipulation" aria-hidden="true">
                 <div class="keyboard-rows flex flex-col gap-1.5"></div>
             </div>
         </div>

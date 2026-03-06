@@ -52,7 +52,7 @@
     transform: none;
 }
 
-/* Virtual keyboard for touchscreen */
+/* Virtual keyboard for touchscreen - uses em/rem to scale with zoom */
 .virtual-keyboard.hidden {
     display: none !important;
 }
@@ -60,16 +60,16 @@
 .virtual-keyboard .keyboard-row {
     display: flex;
     justify-content: center;
-    gap: 4px;
+    gap: 0.25rem;
 }
 
 .virtual-keyboard .key {
-    min-width: 40px;
-    min-height: 48px;
-    padding: 10px 14px;
-    font-size: 1.1rem;
+    min-width: 2.5em;
+    min-height: 3em;
+    padding: 0.5em 0.75em;
+    font-size: 1.1em;
     font-weight: 500;
-    border-radius: 8px;
+    border-radius: 0.5em;
     border: 2px solid #d1d5db;
     background: #fff;
     color: #374151;
@@ -89,15 +89,15 @@
 }
 
 .virtual-keyboard .key.key-wide {
-    min-width: 56px;
+    min-width: 3.5em;
 }
 
 .virtual-keyboard .key.key-space {
     flex: 1;
-    min-width: 120px;
+    min-width: 7.5em;
 }
 
 .virtual-keyboard .key.key-special {
     background: #e5e7eb;
-    font-size: 0.875rem;
+    font-size: 0.875em;
 }
