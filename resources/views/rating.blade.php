@@ -84,22 +84,22 @@
         </div>
 
         {{-- Screen 3: Feedback --}}
-        <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-start overflow-y-auto p-8 gap-6 z-[60] isolate">
-            <h2 class="text-2xl md:text-3xl font-semibold text-gray-800 text-center" data-i18n="feedbackTitle">Wil je de keuze kort toelichten?</h2>
-            <div class="w-full max-w-xl">
-                <textarea id="feedback-input" rows="4" maxlength="500" placeholder="" dir="ltr" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="w-full p-4 text-lg rounded-xl border-2 border-gray-300 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation text-left" data-i18n-placeholder="feedbackPlaceholder"></textarea>
-                <p class="text-sm text-gray-500 mt-2 text-right" id="char-count">0 / 500</p>
+        <div id="screen-feedback" class="screen screen-hidden feedback-screen flex flex-col items-center justify-center overflow-hidden p-4 gap-3 z-[60] isolate">
+            <h2 class="text-xl md:text-2xl font-semibold text-gray-800 text-center shrink-0" data-i18n="feedbackTitle">Wil je de keuze kort toelichten?</h2>
+            <div class="w-full max-w-xl shrink-0">
+                <textarea id="feedback-input" rows="2" maxlength="500" placeholder="" dir="ltr" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="w-full p-3 text-base rounded-lg border-2 border-gray-300 bg-white focus:border-green-500 focus:ring-2 focus:ring-green-200/50 outline-none transition-all resize-none touch-target placeholder:text-gray-600 select-text touch-manipulation text-left" data-i18n-placeholder="feedbackPlaceholder"></textarea>
+                <p class="text-xs text-gray-500 mt-1 text-right" id="char-count">0 / 500</p>
             </div>
-            <div class="flex gap-4">
-                <button type="button" id="feedback-skip" class="px-6 py-3 text-gray-700 font-medium rounded-xl border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors touch-target" data-i18n="skip">Overslaan</button>
-                <button type="button" id="feedback-submit" class="flex items-center gap-2 px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-xl transition-colors touch-target min-h-[60px] disabled:bg-gray-300 disabled:hover:bg-gray-300">
+            <div class="flex gap-3 shrink-0">
+                <button type="button" id="feedback-skip" class="px-5 py-2.5 text-gray-700 font-medium rounded-lg border-2 border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors touch-target text-sm" data-i18n="skip">Overslaan</button>
+                <button type="button" id="feedback-submit" class="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors touch-target min-h-[48px] disabled:bg-gray-300 disabled:hover:bg-gray-300 text-sm">
                     <span data-i18n="send">Versturen</span>
                     <span aria-hidden="true">→</span>
                 </button>
             </div>
-            {{-- Virtual keyboard for touchscreen (Raspberry Pi, etc.) --}}
-            <div id="virtual-keyboard" class="virtual-keyboard hidden w-full max-w-2xl mt-4 p-3 bg-gray-100 rounded-xl border-2 border-gray-200 touch-manipulation" aria-hidden="true">
-                <div class="keyboard-rows flex flex-col gap-1.5"></div>
+            {{-- Virtual keyboard - compact dark theme --}}
+            <div id="virtual-keyboard" class="virtual-keyboard hidden w-full max-w-xl shrink-0 mt-1 p-2 touch-manipulation" aria-hidden="true">
+                <div class="keyboard-rows flex flex-col gap-0.5"></div>
             </div>
         </div>
 
@@ -115,5 +115,13 @@
     <div class="fixed bottom-4 left-4 z-50 pointer-events-none">
         <img src="{{ asset('images/logo-remenko.png') }}" alt="Remenko" class="h-28 md:h-36 w-auto object-contain">
     </div>
+    <style>
+        #virtual-keyboard .key { background: #4a4a4a !important; background-color: #4a4a4a !important; color: #f1f5f9 !important; border-radius: 4px !important; }
+        #virtual-keyboard .key:hover { background: #5a5a5a !important; background-color: #5a5a5a !important; }
+        #virtual-keyboard .key:active { background: #6a6a6a !important; background-color: #6a6a6a !important; }
+        #virtual-keyboard .key.key-special { background: #3a3a3a !important; background-color: #3a3a3a !important; }
+        #virtual-keyboard .key.key-special:hover { background: #4a4a4a !important; background-color: #4a4a4a !important; }
+        #virtual-keyboard .key.key-special:active { background: #5a5a5a !important; background-color: #5a5a5a !important; }
+    </style>
 </body>
 </html>
