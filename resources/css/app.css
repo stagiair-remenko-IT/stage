@@ -52,11 +52,10 @@
     transform: none;
 }
 
-/* Virtual keyboard - compact dark theme, scales with zoom */
+/* Virtual keyboard - simple, responsive, black bg, gray squared keys */
 .virtual-keyboard {
-    background: #1e293b;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: #000;
+    border-radius: 0;
 }
 
 .virtual-keyboard.hidden {
@@ -66,66 +65,61 @@
 .virtual-keyboard .keyboard-row {
     display: flex;
     justify-content: center;
-    gap: 0.2rem;
+    gap: 6px;
+}
+
+    gap: 6px;
 }
 
 #virtual-keyboard .key,
 .virtual-keyboard .key {
-    min-width: 1.6em;
-    min-height: 2em;
-    padding: 0.25em 0.4em;
-    font-size: 0.95em;
+    min-width: clamp(44px, 5vw, 64px);
+    min-height: clamp(48px, 6vh, 72px);
+    padding: 0.5rem 0.75rem;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
     font-weight: 600;
-    border-radius: 4px;
-    border: none !important;
-    background: #4a4a4a !important;
-    background-color: #4a4a4a !important;
-    color: #f1f5f9 !important;
+    border-radius: 0;
+    border: none;
+    background: #4a4a4a;
+    color: #fff;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     transition: background 0.1s, transform 0.05s;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 #virtual-keyboard .key:hover,
 .virtual-keyboard .key:hover {
-    background: #5a5a5a !important;
-    background-color: #5a5a5a !important;
+    background: #5a5a5a;
 }
 
 #virtual-keyboard .key:active,
 .virtual-keyboard .key:active {
-    background: #6a6a6a !important;
-    background-color: #6a6a6a !important;
-    transform: scale(0.97);
+    background: #6a6a6a;
+    transform: scale(0.98);
 }
 
 .virtual-keyboard .key.key-wide {
-    min-width: 2.2em;
+    min-width: clamp(52px, 6vw, 80px);
 }
 
 .virtual-keyboard .key.key-space {
     flex: 1;
-    min-width: 4em;
+    min-width: clamp(120px, 15vw, 200px);
 }
 
 #virtual-keyboard .key.key-special,
 .virtual-keyboard .key.key-special {
-    background: #3a3a3a !important;
-    background-color: #3a3a3a !important;
-    color: #94a3b8 !important;
-    font-size: 0.85em;
+    background: #3a3a3a;
+    color: #c4c4c4;
 }
 
 #virtual-keyboard .key.key-special:hover,
 .virtual-keyboard .key.key-special:hover {
-    background: #4a4a4a !important;
-    background-color: #4a4a4a !important;
+    background: #4a4a4a;
 }
 
 #virtual-keyboard .key.key-special:active,
 .virtual-keyboard .key.key-special:active {
-    background: #5a5a5a !important;
-    background-color: #5a5a5a !important;
+    background: #5a5a5a;
 }

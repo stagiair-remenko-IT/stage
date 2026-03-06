@@ -340,6 +340,7 @@ function showScreen(name) {
     else if (name === 'demographics') screens.demographics.classList.remove('screen-hidden');
     else if (name === 'feedback') screens.feedback.classList.remove('screen-hidden');
     else if (name === 'thanks') screens.thanks.classList.remove('screen-hidden');
+
 }
 
 function handleRatingClick(score) {

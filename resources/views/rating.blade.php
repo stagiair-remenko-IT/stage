@@ -97,9 +97,9 @@
                     <span aria-hidden="true">→</span>
                 </button>
             </div>
-            {{-- Virtual keyboard - compact dark theme --}}
-            <div id="virtual-keyboard" class="virtual-keyboard hidden w-full max-w-xl shrink-0 mt-1 p-2 touch-manipulation" aria-hidden="true">
-                <div class="keyboard-rows flex flex-col gap-0.5"></div>
+            {{-- Virtual keyboard - simple, responsive, black bg, gray squared keys --}}
+            <div id="virtual-keyboard" class="virtual-keyboard hidden w-[calc(100%-4rem)] max-w-3xl shrink-0 mt-2 ml-16 md:ml-20 mr-2 p-3 touch-manipulation" aria-hidden="true">
+                <div class="keyboard-rows flex flex-col gap-2"></div>
             </div>
         </div>
 
@@ -112,16 +112,21 @@
     </div>
 
     {{-- Fixed logo bottom left (all screens) --}}
-    <div class="fixed bottom-4 left-4 z-50 pointer-events-none">
+    <div id="floating-logo" class="fixed bottom-4 left-4 z-50 pointer-events-none">
         <img src="{{ asset('images/logo-remenko.png') }}" alt="Remenko" class="h-28 md:h-36 w-auto object-contain">
     </div>
     <style>
-        #virtual-keyboard .key { background: #4a4a4a !important; background-color: #4a4a4a !important; color: #f1f5f9 !important; border-radius: 4px !important; }
+        #virtual-keyboard { background: #000 !important; background-color: #000 !important; border-radius: 0 !important; }
+        #virtual-keyboard .key { background: #4a4a4a !important; background-color: #4a4a4a !important; color: #fff !important; border-radius: 0 !important; min-width: clamp(44px, 5vw, 64px) !important; min-height: clamp(48px, 6vh, 72px) !important; font-size: clamp(1rem, 2.5vw, 1.25rem) !important; }
         #virtual-keyboard .key:hover { background: #5a5a5a !important; background-color: #5a5a5a !important; }
         #virtual-keyboard .key:active { background: #6a6a6a !important; background-color: #6a6a6a !important; }
+        #virtual-keyboard .key.key-wide { min-width: clamp(52px, 6vw, 80px) !important; }
+        #virtual-keyboard .key.key-space { min-width: clamp(120px, 15vw, 200px) !important; }
         #virtual-keyboard .key.key-special { background: #3a3a3a !important; background-color: #3a3a3a !important; }
         #virtual-keyboard .key.key-special:hover { background: #4a4a4a !important; background-color: #4a4a4a !important; }
         #virtual-keyboard .key.key-special:active { background: #5a5a5a !important; background-color: #5a5a5a !important; }
+        #virtual-keyboard .keyboard-row { gap: 6px !important; }
+        #virtual-keyboard .keyboard-rows { gap: 6px !important; }
     </style>
 </body>
 </html>
